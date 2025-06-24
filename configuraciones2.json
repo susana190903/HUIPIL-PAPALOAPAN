@@ -1,0 +1,9 @@
+{
+"mask": "imagenes/museobardo.png",
+"radius":50,
+"rgb":[12, 255, 39],
+"WINDOWS_opt":true,
+"Inver":true,
+"corner_1":[350,170],
+"corner_2":[1200,700]
+}

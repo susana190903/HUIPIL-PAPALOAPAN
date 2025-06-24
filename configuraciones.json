@@ -1,0 +1,9 @@
+{
+"mask":"piramide.png",
+"radius":40,
+"rgb":[229,152,102],
+"WINDOWS_opt":true,
+"Inver":true,
+"corner_1":[350,170],
+"corner_2":[1200,700]
+}
