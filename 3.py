@@ -426,8 +426,7 @@ with mp_hands.Hands(min_detection_confidence=0.8, min_tracking_confidence=0.8) a
 
         for name, area in areas.items():
             surface = pygame.Surface((area.width, area.height), pygame.SRCALPHA)
-           # surface.fill((0, 0, 0, 0))  # Completamente transparente
-            surface.fill((255,45,67))
+            surface.fill((0, 0, 0, 0))  # Completamente transparente
 
             pygame.draw.rect(surface, (0, 255, 0, 255), (0, 0, area.width, area.height), 2)  # Borde semi-transparente
             area_surfaces[name] = surface
