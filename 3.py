@@ -41,66 +41,47 @@ def render_text(text, font_size, color):
 
 # Diccionario que contiene rutas a los archivos de audio de las pirámides
 audios_piramides = {
-    #--------------------------------------------------------------------
-    #CHINANTECOS
-    "San Pedro Sochiapan": r"Audios_Piramides/Chichén_Itzá.mp3",
-    "Santiago Quetzalapa": r"Audios_Piramides/Chichén_Itzá.mp3",
-    "San Juan Zapotitlán": r"Audios_Piramides/Chichén_Itzá.mp3",
-    "Santa Cruz Tepetotutla": r"Audios_Piramides/Chichén_Itzá.mp3",
     "San Felipe Usila": r"Audios_Piramides/Chichén_Itzá.mp3",
+    "San Miguel Soyaltepec": r"Audios_Piramides/Chichén_Itzá.mp3",
+    "San Juan Bautista Tuxtepec": r"Audios_Piramides/Chichén_Itzá.mp3",
+    "San Pedro Ixcatlán": r"Audios_Piramides/Chichén_Itzá.mp3",
+    "San Felipe Jalapa de Díaz": r"Audios_Piramides/Chichén_Itzá.mp3",
+    "San Juan Bautista Valle Nacional": r"Audios_Piramides/Chichén_Itzá.mp3",
     "San Lucas Ojitlán": r"Audios_Piramides/Chichén_Itzá.mp3",
-    "Valle Nacional": r"Audios_Piramides/Chichén_Itzá.mp3",
-    
 }
 
-# Diccionario que define las áreas objetivo para cada pirámide (rectángulos para colisiones)
+# Rectángulos de colisión para cada huipil
 areas2 = {
-    # Define un rectángulo con (ancho, alto)
-    # --------------------------------------------------------------------
-    # CHINANTECOS -- PAPALOAPAN
-    "San Pedro Sochiapan": pygame.Rect(580, 150, 180, 120),
-    "Santiago Quetzalapa": pygame.Rect(580, 150, 180, 120),
-    "San Juan Zapotitlán": pygame.Rect(580, 150, 180, 120),
-    "Santa Cruz Tepetotutla": pygame.Rect(580, 150, 180, 120),
     "San Felipe Usila": pygame.Rect(580, 150, 180, 120),
+    "San Miguel Soyaltepec": pygame.Rect(580, 150, 180, 120),
+    "San Juan Bautista Tuxtepec": pygame.Rect(580, 150, 180, 120),
+    "San Pedro Ixcatlán": pygame.Rect(580, 150, 180, 120),
+    "San Felipe Jalapa de Díaz": pygame.Rect(580, 150, 180, 120),
+    "San Juan Bautista Valle Nacional": pygame.Rect(580, 150, 180, 120),
     "San Lucas Ojitlán": pygame.Rect(580, 150, 180, 120),
-    "Valle Nacional": pygame.Rect(580, 150, 180, 120),
-    
-
 }
 
-# Diccionario que almacena los textos renderizados para cada pirámide
+# Textos renderizados para cada huipil
 pyramid_texts = {
-    #--------------------------------------------------------------------
-    #CHINANTECOS
-    "San Pedro Sochiapan": render_text("San Pedro Sochiapan", 60, (0, 0, 0)),
-    "Santiago Quetzalapa": render_text("Santiago Quetzalapa", 60, (20, 0, 0)),
-    "San Juan Zapotitlán": render_text("San Juan Zapotitlán", 60, (0, 0, 0)),
-    "Santa Cruz Tepetotutla": render_text("Santa Cruz Tepetotutla", 60, (0, 0, 0)),
     "San Felipe Usila": render_text("San Felipe Usila", 60, (0, 0, 0)),
+    "San Miguel Soyaltepec": render_text("San Miguel Soyaltepec", 60, (0, 0, 0)),
+    "San Juan Bautista Tuxtepec": render_text("San Juan Bautista Tuxtepec", 60, (0, 0, 0)),
+    "San Pedro Ixcatlán": render_text("San Pedro Ixcatlán", 60, (0, 0, 0)),
+    "San Felipe Jalapa de Díaz": render_text("San Felipe Jalapa de Díaz", 60, (0, 0, 0)),
+    "San Juan Bautista Valle Nacional": render_text("San Juan Bautista Valle Nacional", 60, (0, 0, 0)),
     "San Lucas Ojitlán": render_text("San Lucas Ojitlán", 60, (0, 0, 0)),
-    "Valle Nacional": render_text("Valle Nacional", 60, (0, 0, 0)),
-    
-
-
 }
 
+# Imágenes asociadas a cada huipil
 imagenes_piramide = {
-    #--------------------------------------------------------------------
-    #CHINANTECOS -- PAPALOAPAN
-    "San Pedro Sochiapan": "imagenes/CHINANTECOS/1.San Pedro Sochiapan.png",
-    "Santiago Quetzalapa": "imagenes/CHINANTECOS/2.Santiago Quetzalapa.png",
-    "San Juan Zapotitlán": "imagenes/CHINANTECOS/3.San Juan Zapotitlán.png",
-    "Santa Cruz Tepetotutla": "imagenes/CHINANTECOS/4.Santa Cruz Tepetotutla.png",
-    "San Felipe Usila": "imagenes/CHINANTECOS/5.San Felipe Usila.png",
-    "San Lucas Ojitlán": "imagenes/CHINANTECOS/6.San Lucas Ojitlán.png",
-    "Valle Nacional": "imagenes/CHINANTECOS/7.Valle Nacional.png",
-    
-    
-
-
+    "San Felipe Usila": "imagenes/PAPALOAPAN/usila.png",
+    "San Miguel Soyaltepec": "imagenes/PAPALOAPAN/soyaltepec.png",
+    "San Juan Bautista Tuxtepec": "imagenes/PAPALOAPAN/tuxtepec.png",
+    "San Pedro Ixcatlán": "imagenes/PAPALOAPAN/ixcatlan.png",
+    "San Felipe Jalapa de Díaz": "imagenes/PAPALOAPAN/jalapa.png",
+    "San Juan Bautista Valle Nacional": "imagenes/PAPALOAPAN/valle.png",
+    "San Lucas Ojitlán": "imagenes/PAPALOAPAN/ojitlan.png",
 }
-
 
 def mezclar_piramides(areas2):
     # Obtener una lista de las claves (nombres de pirámides) de las áreas
@@ -204,7 +185,7 @@ pygame.display.set_caption("PIRAMIDES DE LA REPUBLICA MEXICANA")  # Título de l
 
 
 # Cargar la imagen de fondo (un mapa con puntos) y ajustarla al tamaño de la pantalla
-background_image = pygame.image.load('fondo/3.png').convert()  # Carga la imagen de fondo
+background_image = pygame.image.load('fondo/4.png').convert()  # Carga la imagen de fondo
 background_image = pygame.transform.scale(background_image, (SCREEN_WIDTH, SCREEN_HEIGHT))  # Escala la imagen al tamaño de la ventana
 
 # Inicializar el espacio de Pymunk para la simulación física
