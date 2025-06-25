@@ -39,12 +39,14 @@ def render_text(text, font_size, color):
     font = pygame.font.Font(None, font_size)  # Se crea una fuente de Pygame
     return font.render(text, True, color)  # Renderiza el texto con antialiasing
 
+
+
 # Diccionario que contiene rutas a los archivos de audio de las pirámides
 audios_piramides = {
     "San Felipe Usila": r"Audios_Piramides/Chichén_Itzá.mp3",
     "San Miguel Soyaltepec": r"Audios_Piramides/Chichén_Itzá.mp3",
     "San Juan Bautista Tuxtepec": r"Audios_Piramides/Chichén_Itzá.mp3",
-    "San Pedro Ixcatlán": r"Audios_Piramides/Chichén_Itzá.mp3",
+    "San Pedro Ixcatlan": r"Audios_Piramides/Chichén_Itzá.mp3",
     "San Felipe Jalapa de Díaz": r"Audios_Piramides/Chichén_Itzá.mp3",
     "San Juan Bautista Valle Nacional": r"Audios_Piramides/Chichén_Itzá.mp3",
     "San Lucas Ojitlán": r"Audios_Piramides/Chichén_Itzá.mp3",
@@ -52,13 +54,13 @@ audios_piramides = {
 
 # Rectángulos de colisión para cada huipil
 areas2 = {
-    "San Felipe Usila": pygame.Rect(580, 150, 180, 120),
-    "San Miguel Soyaltepec": pygame.Rect(580, 150, 180, 120),
-    "San Juan Bautista Tuxtepec": pygame.Rect(580, 150, 180, 120),
-    "San Pedro Ixcatlán": pygame.Rect(580, 150, 180, 120),
-    "San Felipe Jalapa de Díaz": pygame.Rect(580, 150, 180, 120),
-    "San Juan Bautista Valle Nacional": pygame.Rect(580, 150, 180, 120),
-    "San Lucas Ojitlán": pygame.Rect(580, 150, 180, 120),
+    "San Felipe Usila": pygame.Rect(495, 600, 65, 150),        # Parte inferior izquierda (verde olivo)
+    "San Miguel Soyaltepec": pygame.Rect(495, 335, 110, 110),   # Arriba a la izquierda (azul claro)
+    "San Juan Bautista Tuxtepec": pygame.Rect(680, 450, 110, 100),  # Centro-derecha (verde limón)
+    "San Pedro Ixcatlan": pygame.Rect(440, 408, 70, 70),      # Parte derecha centro (amarillo)
+    "San Felipe Jalapa de Díaz": pygame.Rect(440, 485, 100, 70),  # Centro (aqua)
+    "San Juan Bautista Valle Nacional": pygame.Rect(565, 650, 110, 100),  # Abajo al centro (morado oscuro)
+    "San Lucas Ojitlán": pygame.Rect(560, 480, 110, 100),      # Zona gris central
 }
 
 # Textos renderizados para cada huipil
@@ -66,7 +68,7 @@ pyramid_texts = {
     "San Felipe Usila": render_text("San Felipe Usila", 60, (0, 0, 0)),
     "San Miguel Soyaltepec": render_text("San Miguel Soyaltepec", 60, (0, 0, 0)),
     "San Juan Bautista Tuxtepec": render_text("San Juan Bautista Tuxtepec", 60, (0, 0, 0)),
-    "San Pedro Ixcatlán": render_text("San Pedro Ixcatlán", 60, (0, 0, 0)),
+    "San Pedro Ixcatlan": render_text("San Pedro Ixcatlan", 60, (0, 0, 0)),
     "San Felipe Jalapa de Díaz": render_text("San Felipe Jalapa de Díaz", 60, (0, 0, 0)),
     "San Juan Bautista Valle Nacional": render_text("San Juan Bautista Valle Nacional", 60, (0, 0, 0)),
     "San Lucas Ojitlán": render_text("San Lucas Ojitlán", 60, (0, 0, 0)),
@@ -77,7 +79,7 @@ imagenes_piramide = {
     "San Felipe Usila": "imagenes/PAPALOAPAN/usila.png",
     "San Miguel Soyaltepec": "imagenes/PAPALOAPAN/soyaltepec.png",
     "San Juan Bautista Tuxtepec": "imagenes/PAPALOAPAN/tuxtepec.png",
-    "San Pedro Ixcatlán": "imagenes/PAPALOAPAN/ixcatlan.png",
+    "San Pedro Ixcatlan": "imagenes/PAPALOAPAN/ixc.png",
     "San Felipe Jalapa de Díaz": "imagenes/PAPALOAPAN/jalapa.png",
     "San Juan Bautista Valle Nacional": "imagenes/PAPALOAPAN/valle.png",
     "San Lucas Ojitlán": "imagenes/PAPALOAPAN/ojitlan.png",
@@ -424,7 +426,8 @@ with mp_hands.Hands(min_detection_confidence=0.8, min_tracking_confidence=0.8) a
 
         for name, area in areas.items():
             surface = pygame.Surface((area.width, area.height), pygame.SRCALPHA)
-            surface.fill((0, 0, 0, 0))  # Completamente transparente
+           # surface.fill((0, 0, 0, 0))  # Completamente transparente
+            surface.fill((255,45,67))
 
             pygame.draw.rect(surface, (0, 255, 0, 255), (0, 0, area.width, area.height), 2)  # Borde semi-transparente
             area_surfaces[name] = surface
