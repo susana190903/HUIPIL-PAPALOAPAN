@@ -52,6 +52,59 @@ audios_piramides = {
     "San Lucas Ojitlán": r"Audios_Piramides/Chichén_Itzá.mp3",
 }
 
+# --- Agregado: animación de entrada para huipil ---
+def animar_huipil_inicio(imagen_original, duracion= 3, pasos=20):
+    """
+    Muestra una animación donde el huipil aparece en grande y se reduce a su tamaño normal.
+    """
+    max_size = 700  # Tamaño inicial grande
+    min_size = objectRadius * 2  # Tamaño normal
+    step = (max_size - min_size) / pasos
+    center_x = SCREEN_WIDTH // 2
+    center_y = SCREEN_HEIGHT // 2
+
+    for i in range(pasos):
+        size = int(max_size - step * i)
+        frame = pygame.transform.scale(imagen_original, (size, size))
+        x = center_x - size // 2
+        y = center_y - size // 2
+
+        screen.blit(background_image, (0, 0))
+        screen.blit(frame, (x, y))
+        pygame.display.update()
+        pygame.time.delay(int(duracion * 1000 / pasos))
+
+
+# --- Modificación en reset_game(): efecto visual de entrada aplicado ---
+def reset_game():
+    global start_time, current_audio, ballFrame
+
+    # Obtener la pirámide actual y cargar su imagen
+    current_pyramid = get_current_pyramid()
+    imagen_original = pygame.image.load(imagenes_piramide[current_pyramid]).convert_alpha()
+
+    # Reposicionar y detener movimiento antes de la animación
+    moving_ball.body.position = (700, 100)
+    moving_ball.body.velocity = (0, 0)
+
+    # Animación de entrada
+    animar_huipil_inicio(imagen_original)
+
+    # Asignar imagen final escalada
+    ballFrame = pygame.transform.scale(imagen_original, (objectRadius * 2, objectRadius * 2))
+
+    # Iniciar el temporizador
+    start_time = time.time()
+
+    # Cargar y reproducir el audio
+    if current_pyramid in audios_piramides:
+     pygame.mixer.music.stop()
+    pygame.mixer.music.load(audios_piramides[current_pyramid])
+    pygame.mixer.music.play(-1)
+    current_audio = current_pyramid
+
+
+
 # Rectángulos de colisión para cada huipil
 areas2 = {
     "San Felipe Usila": pygame.Rect(495, 600, 65, 150),        # Parte inferior izquierda (verde olivo)
@@ -165,17 +218,23 @@ def handle_correct_collision():
 
     if piramides_correctas == total_piramides:  # Si todas las pirámides han sido completadas
         game_over = True  # Termina el juego
+        
     else:
         # Avanzar a la siguiente pirámide
         current_pyramid_index = (current_pyramid_index + 1) % len(pyramid_names)
 
         # Cargar la nueva imagen de la pirámide
         nueva_piramide = pyramid_names[current_pyramid_index]
-        print(current_pyramid_index)
-        ballFrame = pygame.image.load(imagenes_piramide[nueva_piramide]).convert_alpha()
-        ballFrame = pygame.transform.scale(ballFrame, (objectRadius * 2, objectRadius * 2))
+        imagen_original = pygame.image.load(imagenes_piramide[nueva_piramide]).convert_alpha()
 
-        reset_game()  # Reinicia el juego para la nueva pirámide
+        # Mostrar animación de entrada para la nueva pirámide
+        animar_huipil_inicio(imagen_original)
+
+        # Asignar la imagen final escalada
+        ballFrame = pygame.transform.scale(imagen_original, (objectRadius * 2, objectRadius * 2))
+
+        # Reiniciar la física y lógica para la nueva pirámide
+        reset_game()
 
 
 # Configurar la ventana de Pygame con el tamaño definido
@@ -281,8 +340,9 @@ direccion_imagen = imagenes_piramide.get(primera_piramide, "Imagen no encontrada
 # Cargar la imagen de la pirámide con transparencia
 objectreadfile = direccion_imagen
 pic = pygame.image.load(objectreadfile).convert_alpha()
+animar_huipil_inicio(pic)
 pic = pygame.transform.scale(pic, (objectRadius * 2, objectRadius * 2))
-ballFrame = pic  # Asignar la imagen de la pirámide a ballFrame
+ballFrame = pic
 
 # clock
 clock = pygame.time.Clock()
