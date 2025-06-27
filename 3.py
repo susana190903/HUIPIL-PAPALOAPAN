@@ -12,6 +12,7 @@ import random  # Librería para realizar operaciones aleatorias(mezclar la demos
 from math import sqrt  # Función matemática para calcular la raíz cuadrada (distancia entre puntos)
 
 
+
 # Inicialización de Pygame
 pygame.init()
 
@@ -34,7 +35,7 @@ playGIF = False
 # Dimensiones de la pantalla de juego
 SCREEN_WIDTH = 1300  # Ancho de la pantalla
 SCREEN_HEIGHT = 850  # Alto de la pantalla
-
+ 
 def render_text(text, font_size, color):
     font = pygame.font.Font(None, font_size)  # Se crea una fuente de Pygame
     return font.render(text, True, color)  # Renderiza el texto con antialiasing
@@ -70,9 +71,15 @@ def animar_huipil_inicio(imagen_original, duracion= 3, pasos=20):
         y = center_y - size // 2
 
         screen.blit(background_image, (0, 0))
+
+        # 🔁 DIBUJAR LOS HUIPILES YA COLOCADOS
+        for imagen, pos in huipiles_fijos:
+            screen.blit(imagen, pos)
+
         screen.blit(frame, (x, y))
         pygame.display.update()
         pygame.time.delay(int(duracion * 1000 / pasos))
+
 
 
 # --- Modificación en reset_game(): efecto visual de entrada aplicado ---
@@ -164,7 +171,8 @@ current_pyramid_index = 0  # Índice de la pirámide actual
 pyramid_released = False
 release_time = None  # Guarda el tiempo cuando la pirámide fue soltada
 waiting_for_result = False  # Indica si se está esperando un resultado tras soltar la pirámide
-
+huipiles_colocados = []
+huipiles_fijos = []  # Lista de (imagen, posición) de huipiles ya colocados
 
 
 piramides_correctas = 0  # Contador de pirámides correctas
@@ -204,37 +212,38 @@ def reset_game():
         pygame.mixer.music.load(audios_piramides[current_pyramid])
         pygame.mixer.music.play(-1)
         current_audio = current_pyramid # Actualiza el audio actual
-        sonido_correcto.play()  # Reproduce sonido de acierto
         pygame.mixer.music.play(-1)
 
 
 
 # Función principal para manejar la colisión correcta
 def handle_correct_collision():
-    global game_over, piramides_correctas, current_pyramid_index, ballFrame
+    global game_over, piramides_correctas, current_pyramid_index, ballFrame, moving_ball
 
-    sonido_correcto.play()  # Reproduce el sonido de acierto
-    piramides_correctas += 1  # Incrementa el contador de pirámides correctas
+    sonido_correcto.play()
+    piramides_correctas += 1
+    huipiles_colocados.append(current_pyramid)
 
-    if piramides_correctas == total_piramides:  # Si todas las pirámides han sido completadas
-        game_over = True  # Termina el juego
-        
+    # Guardar la imagen del huipil y su posición final para dejarlo fijo
+    imagen = pygame.image.load(imagenes_piramide[current_pyramid]).convert_alpha()
+    imagen = pygame.transform.scale(imagen, (objectRadius * 2.8, objectRadius * 2.8))
+    posicion_final = (int(moving_ball.body.position[0] - objectRadius), int(moving_ball.body.position[1] - objectRadius))
+    huipiles_fijos.append((imagen, posicion_final))  # Guardar la imagen y posición
+
+    if piramides_correctas == total_piramides:
+        game_over = True
     else:
         # Avanzar a la siguiente pirámide
-        current_pyramid_index = (current_pyramid_index + 1) % len(pyramid_names)
-
-        # Cargar la nueva imagen de la pirámide
+        current_pyramid_index += 1
         nueva_piramide = pyramid_names[current_pyramid_index]
         imagen_original = pygame.image.load(imagenes_piramide[nueva_piramide]).convert_alpha()
-
-        # Mostrar animación de entrada para la nueva pirámide
         animar_huipil_inicio(imagen_original)
+        ballFrame = pygame.transform.scale(imagen_original, (objectRadius * 2.7, objectRadius * 2.7))
 
-        # Asignar la imagen final escalada
-        ballFrame = pygame.transform.scale(imagen_original, (objectRadius * 2, objectRadius * 2))
-
-        # Reiniciar la física y lógica para la nueva pirámide
+        # Crear una nueva pirámide móvil
+        moving_ball = create_ball(round(objectRadius * 1.4), (900, 100), objectColor)
         reset_game()
+
 
 
 # Configurar la ventana de Pygame con el tamaño definido
@@ -407,7 +416,11 @@ with mp_hands.Hands(min_detection_confidence=0.8, min_tracking_confidence=0.8) a
         #DIBJAR NECESIDADES DEL JUEGO
         # Dibujar la pantalla de fondo y la pirámide
         screen.blit(background_image, (0, 0))
-        space.debug_draw(draw_options)  # Dibujar objetos fisicos
+        #space.debug_draw(draw_options)  # Dibujar objetos fisicos
+        # Dibujar huipiles que ya fueron colocados correctamente
+        for imagen, pos in huipiles_fijos:
+         screen.blit(imagen, pos)
+
         # Dibujar la pirámide en su posición actual
         pyramid_pos = (int(moving_ball.body.position[0] - objectRadius), int(moving_ball.body.position[1] - objectRadius))
         # Calcula la posición donde se debe dibujar la pirámide restando su radio a la posición de la bola (centrado).
@@ -440,7 +453,7 @@ with mp_hands.Hands(min_detection_confidence=0.8, min_tracking_confidence=0.8) a
                     # index_middle_distance = calc_distance(index_pixel, middle_pixel)
 
                     # Si el pulgar y el índice están cerca, mover la pirámide
-                    if thumb_index_distance < 50:
+                    if thumb_index_distance < 50 and current_pyramid not in huipiles_colocados:
                         pyramid_held = True
                         moving_ball.body.position = index_pixel  # Mover la pirámide a la posición del índice
                     elif prueba:
