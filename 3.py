@@ -53,6 +53,38 @@ audios_piramides = {
     "San Lucas Ojitlán": r"Audios_Piramides/ojitlan.mp3",
 }
 
+info_melodias = {
+    "San Felipe Usila": {
+        "melodia": "Jarabe Usileño",
+        "autor": "Luis Jacinto Roque"
+    },
+    "San Miguel Soyaltepec": {
+        "melodia": "Regresó la doncella de la peña",
+        "autor": "Apolonio Bartolo Ronquillo"
+    },
+    "San Juan Bautista Tuxtepec": {
+        "melodia": "Tuxtepec",
+        "autor": "Marimba: Estrellita del Sur / Rincón de la Marimba"
+    },
+    "San Pedro Ixcatlan": {
+        "melodia": "La india bonita",
+        "autor": "Bartolo Lazo Rosas, Porfirio Romualdo Rosas, José Carrera García"
+    },
+    "San Felipe Jalapa de Díaz": {
+        "melodia": "Las pastoras",
+        "autor": "Mazatecos"
+    },
+    "San Juan Bautista Valle Nacional": {
+        "melodia": "A mi negro se lo llevan",
+        "autor": "Silvia María Zúñiga"
+    },
+    "San Lucas Ojitlán": {
+        "melodia": "Danza Ojiteca",
+        "autor": "XEOJN La Voz de la Chinantla"
+    }
+}
+
+
 # --- Agregado: animación de entrada para huipil ---
 def animar_huipil_inicio(imagen_original, duracion= 3, pasos=20):
     """
@@ -477,7 +509,7 @@ with mp_hands.Hands(min_detection_confidence=0.8, min_tracking_confidence=0.8) a
                 collision_detected = False
                 for name, area in areas.items():  # Recorre todas las áreas para verificar si hubo colisión incorrecta.
                     if area.colliderect(ball_rect):
-                        print(f"Colisión incorrecta. La pirámide correcta es {current_pyramid}")
+                        print(f"Colisión incorrecta. El huipil correcto es {current_pyramid}")
                         sonido_incorrecto.play()  # Reproduce el sonido de colisión incorrecta.
                         game_over = True  # Termina el juego por colisión incorrecta.
                         collision_detected = True
@@ -523,6 +555,21 @@ with mp_hands.Hands(min_detection_confidence=0.8, min_tracking_confidence=0.8) a
         counter_x = SCREEN_WIDTH - counter_text.get_width() - 10
         counter_y = 10
         screen.blit(counter_text, (counter_x, counter_y))
+        
+        # Mostrar información musical en la parte inferior derecha
+        info = info_melodias[current_pyramid]
+        melodia_text = render_text(f"Melodía: {info['melodia']}", 24, (255, 255, 255))
+        autor_text = render_text(f"Autor: {info['autor']}", 24, (200, 200, 200))
+
+        # Posiciona en la parte inferior derecha
+        melodia_x = SCREEN_WIDTH - melodia_text.get_width() - 10
+        autor_x = SCREEN_WIDTH - autor_text.get_width() - 10
+        melodia_y = SCREEN_HEIGHT - 90  # <- subido un poco
+        autor_y = melodia_y + melodia_text.get_height() + 5
+
+        screen.blit(melodia_text, (melodia_x, melodia_y))
+        screen.blit(autor_text, (autor_x, autor_y))
+
 
         elapsed_time = time.time() - start_time
         remaining_time = max(0, time_limit - elapsed_time)
@@ -531,7 +578,7 @@ with mp_hands.Hands(min_detection_confidence=0.8, min_tracking_confidence=0.8) a
         time_y = 10
         screen.blit(time_text, (time_x, time_y))
         # CAMBIO 2
-        if remaining_time <= 0 or piramides_correctas == 4:
+        if remaining_time <= 0 or piramides_correctas == 7:
             pygame.mixer.music.pause()
             game_over = True
 
@@ -560,7 +607,7 @@ with mp_hands.Hands(min_detection_confidence=0.8, min_tracking_confidence=0.8) a
         # screen.fill(BG)
         #screen.blit(background_image, (0, 0))
         # CAMBIO 3
-        if piramides_correctas == 4:
+        if piramides_correctas == 7:
             
             game_over_text = render_text("¡FELICIDADES!", 60, (0, 255, 0))
             text_x = SCREEN_WIDTH // 2 - game_over_text.get_width() // 2
@@ -571,11 +618,6 @@ with mp_hands.Hands(min_detection_confidence=0.8, min_tracking_confidence=0.8) a
             congrats_x = SCREEN_WIDTH // 2 - congrats_text.get_width() // 2
             congrats_y = text_y + game_over_text.get_height() + 20
             screen.blit(congrats_text, (congrats_x, congrats_y))
-
-            gift_text = render_text("TOMA TU OBSEQUIO", 40, (255, 255, 0))
-            gift_x = SCREEN_WIDTH // 2 - gift_text.get_width() // 2
-            gift_y = congrats_y + congrats_text.get_height() + 40
-            screen.blit(gift_text, (gift_x, gift_y))
 
             # print("1")
             try:
@@ -601,7 +643,7 @@ with mp_hands.Hands(min_detection_confidence=0.8, min_tracking_confidence=0.8) a
             score_y = text_y + game_over_text.get_height() + 5
             # CAMBIO 4
             # Mostrar el texto del puntaje final
-            final_score_text = render_text(f"Pirámides: {piramides_correctas}/{4}", 30, (255, 255, 255))
+            final_score_text = render_text(f"Huipiles: {piramides_correctas}/{7}", 30, (255, 255, 255))
             score_x = SCREEN_WIDTH // 2 - final_score_text.get_width() // 2
             screen.blit(final_score_text, (score_x, score_y))
 
