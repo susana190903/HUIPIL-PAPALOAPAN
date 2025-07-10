@@ -44,13 +44,13 @@ def render_text(text, font_size, color):
 
 # Diccionario que contiene rutas a los archivos de audio de las pirámides
 audios_piramides = {
-    "San Felipe Usila": r"Audios_Piramides/Chichén_Itzá.mp3",
-    "San Miguel Soyaltepec": r"Audios_Piramides/Chichén_Itzá.mp3",
-    "San Juan Bautista Tuxtepec": r"Audios_Piramides/Chichén_Itzá.mp3",
-    "San Pedro Ixcatlan": r"Audios_Piramides/Chichén_Itzá.mp3",
-    "San Felipe Jalapa de Díaz": r"Audios_Piramides/Chichén_Itzá.mp3",
-    "San Juan Bautista Valle Nacional": r"Audios_Piramides/Chichén_Itzá.mp3",
-    "San Lucas Ojitlán": r"Audios_Piramides/Chichén_Itzá.mp3",
+    "San Felipe Usila": r"Audios_Piramides/usila.mp3",
+    "San Miguel Soyaltepec": r"Audios_Piramides/soyaltepec.mp3",
+    "San Juan Bautista Tuxtepec": r"Audios_Piramides/tuxtepec.mp3",
+    "San Pedro Ixcatlan": r"Audios_Piramides/ixcatlan.mp3",
+    "San Felipe Jalapa de Díaz": r"Audios_Piramides/jalapa.mp3",
+    "San Juan Bautista Valle Nacional": r"Audios_Piramides/valle.mp3",
+    "San Lucas Ojitlán": r"Audios_Piramides/ojitlan.mp3",
 }
 
 # --- Agregado: animación de entrada para huipil ---
@@ -248,7 +248,7 @@ def handle_correct_collision():
 
 # Configurar la ventana de Pygame con el tamaño definido
 screen = pygame.display.set_mode((SCREEN_WIDTH, SCREEN_HEIGHT), pygame.NOFRAME)
-pygame.display.set_caption("PIRAMIDES DE LA REPUBLICA MEXICANA")  # Título de la ventana
+pygame.display.set_caption("HUIPILES CUENCA DEL PAPALOAPAN")  # Título de la ventana
 
 
 
@@ -514,12 +514,12 @@ with mp_hands.Hands(min_detection_confidence=0.8, min_tracking_confidence=0.8) a
         text_y = 50
         screen.blit(pyramid_text, (text_x, text_y))
 
-        instruction_text = render_text(f"Lleva la pirámide al estado que creas correspondiente", 30, (255, 255, 255))
+        instruction_text = render_text(f"Dirige el huipil al lugar correcto", 30, (255, 255, 255))
         instruction_x = SCREEN_WIDTH // 2 - instruction_text.get_width() // 2
         instruction_y = 10
         screen.blit(instruction_text, (instruction_x, instruction_y))
         # CAMBIO 1
-        counter_text = render_text(f"PIRÁMIDES CORRECTAS: {piramides_correctas}/{4}", 30, (255, 255, 255))
+        counter_text = render_text(f"HUIPILES CORRECTOS: {piramides_correctas}/{7}", 30, (255, 255, 255))
         counter_x = SCREEN_WIDTH - counter_text.get_width() - 10
         counter_y = 10
         screen.blit(counter_text, (counter_x, counter_y))
